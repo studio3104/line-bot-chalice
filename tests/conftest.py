@@ -11,7 +11,7 @@ import uuid
 from app import app as chalice_app
 from chalicelib import sqs
 
-REGION = 'ap-northeast-1'
+REGION = os.environ['AWS_DEFAULT_REGION']
 ACCOUNT_ID = '123456789012'
 
 

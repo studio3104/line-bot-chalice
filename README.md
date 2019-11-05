@@ -21,8 +21,10 @@ This is a sample implementation of LINE Bot that detects labels on sent images b
 
 ## Dependencies
 
-- Python 3.5+
-  - The implementation contains type hinting
+- Python 3.6+
+  - The implementation contains,
+    - type hinting
+    - f-string
 - [AWS Chalice](https://github.com/aws/chalice)
 - [LINE Messaging API SDK for Python](https://github.com/line/line-bot-sdk-python)
 
