@@ -1,0 +1,13 @@
+language: python
+python:
+  - 3.6
+  - 3.7
+  - 3.8
+before_install:
+  - python --version
+  - pip install -U pip
+install:
+  - pip install -U -r requirements.txt
+  - pip install -U -r test_requirements.txt
+script:
+  - pytest -v
