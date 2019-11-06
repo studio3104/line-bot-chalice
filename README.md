@@ -1,4 +1,4 @@
-# LINE Bot example on AWS serverless services
+# LINE Bot example on AWS serverless services [![Build Status](https://travis-ci.org/aws-samples/line-bot-chalice.svg?branch=master)](https://travis-ci.org/aws-samples/line-bot-chalice)
 
 This is a sample implementation of LINE Bot that detects labels on sent images by Amazon Rekognition.  
 
