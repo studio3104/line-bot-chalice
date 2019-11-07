@@ -1,3 +1,5 @@
+from typing import Iterable
+
 import pytest
 
 from botocore.stub import Stubber
@@ -21,14 +23,14 @@ def app() -> Chalice:
 
 
 @pytest.fixture(autouse=True)
-def stub_sqs():
+def stub_sqs() -> Iterable[Stubber]:
     with Stubber(sqs.meta.client) as stubber:
         yield stubber
         stubber.assert_no_pending_responses()
 
 
 @pytest.fixture
-def stub_sqs_get_queue_url(stub_sqs) -> None:
+def stub_sqs_get_queue_url(stub_sqs: Stubber) -> None:
     queue_name = os.environ['SQS_QUEUE_NAME']
     stub_sqs.add_response(
         'get_queue_url',
@@ -38,7 +40,7 @@ def stub_sqs_get_queue_url(stub_sqs) -> None:
 
 
 @pytest.fixture
-def stub_sqs_send_message(stub_sqs) -> None:
+def stub_sqs_send_message(stub_sqs: Stubber) -> None:
     stub_sqs.add_response(
         'send_message',
         service_response={'MD5OfMessageBody': '', 'MessageId': str(uuid.uuid4())}

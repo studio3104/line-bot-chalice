@@ -17,7 +17,7 @@ PIXEL_RESIZE_TO = 256
 
 
 @app.route('/callback', methods=['POST'])
-def callback():
+def callback() -> str:
     signature = app.current_request.headers['X-Line-Signature']
     body = app.current_request.raw_body.decode('utf-8')
 
