@@ -1,5 +1,7 @@
 import pytest
 
+from pytest_chalice.handlers import RequestHandler
+
 from http import HTTPStatus
 import base64
 import os
@@ -13,7 +15,7 @@ class TestCallback:
     def url(self) -> str:
         return '/callback'
 
-    def test_post_200(self, url: str, client) -> None:
+    def test_post_200(self, url: str, client: RequestHandler) -> None:
         request_json = json.dumps({
             'events': [{
                 'type': 'message',
@@ -32,7 +34,7 @@ class TestCallback:
             'destination': ''
         })
         signature = base64.b64encode(hmac.new(
-            os.getenv('LINE_CHANNEL_SECRET').encode('utf-8'),
+            os.environ['LINE_CHANNEL_SECRET'].encode('utf-8'),
             request_json.encode('utf-8'),
             hashlib.sha256,
         ).digest()).decode('utf-8')
@@ -42,7 +44,7 @@ class TestCallback:
 
         assert response.status_code == HTTPStatus.OK
 
-    def test_post_400(self, url: str, client) -> None:
+    def test_post_400(self, url: str, client: RequestHandler) -> None:
         headers = {'X-Line-Signature': ''}
         response = client.post(url, headers=headers)
         assert response.status_code == HTTPStatus.BAD_REQUEST
@@ -51,6 +53,6 @@ class TestCallback:
         'method',
         ('get', 'head', 'put', 'delete', 'trace', 'patch', 'link', 'unlink'),
     )
-    def test_405(self, method: str, url: str, client) -> None:
+    def test_405(self, method: str, url: str, client: RequestHandler) -> None:
         response = getattr(client, method)(url)
         assert response.status_code == HTTPStatus.METHOD_NOT_ALLOWED
