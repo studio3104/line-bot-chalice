@@ -2,6 +2,7 @@ from typing import Iterable
 
 import pytest
 
+from aws_xray_sdk import global_sdk_config
 from botocore.stub import Stubber
 from chalice import Chalice
 
@@ -15,6 +16,11 @@ from chalicelib import sqs
 
 REGION = os.environ['AWS_DEFAULT_REGION']
 ACCOUNT_ID = '123456789012'
+
+
+@pytest.fixture(autouse=True)
+def disable_xray() -> None:
+    global_sdk_config.set_sdk_enabled(False)
 
 
 @pytest.fixture
